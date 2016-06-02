@@ -12,7 +12,7 @@ module.exports = (function(){
 
     router.route('/')
         .put(function (req, res, next) {
-            res.writeHead(405, {'Content-Type': 'text/plain'});
+            res.writeHead(404, {'Content-Type': 'text/plain'});
             res.end("Invalid PUT request");
         })
         .all(function (req, res, next) {
@@ -32,7 +32,7 @@ module.exports = (function(){
     router.route('/:id')
 
         .post(function (req, res, next) {
-            res.writeHead(405, {'Content-Type': 'text/plain'});
+            res.writeHead(404, {'Content-Type': 'text/plain'});
             res.end("Invalid POST request");
         })
         .all(function (req, res, next) {
