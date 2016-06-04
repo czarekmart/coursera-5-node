@@ -34,6 +34,13 @@ db.once('open', function () {
 
             var id = dish._id;
 
+            console.log("Dishes:");
+            console.log(Dishes);
+            console.log("-------------------------");
+            console.log("db.collection('dishes'):");
+            console.log(db.collection('dishes'));
+            console.log("-------------------------");
+
             // get all the dishes
             setTimeout(function () {
                 Dishes.findByIdAndUpdate(id, {
@@ -59,7 +66,7 @@ db.once('open', function () {
 
                             console.log('Updated Comments!');
                             console.log(dish);
-                            
+
                             db.collection('dishes').drop(function () {
                                 db.close();
                             });
