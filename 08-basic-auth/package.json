@@ -5,8 +5,11 @@
   "main": "dishRouter.js",
   "dependencies": {
     "body-parser": "^1.15.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
     "morgan": "^1.7.0",
-    "express": "^4.13.4"
+    "session-file-store": "^0.2.0"
   },
   "devDependencies": {},
   "scripts": {
