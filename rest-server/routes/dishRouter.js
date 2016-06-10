@@ -123,7 +123,7 @@ module.exports = (function(){
                 if (err) throw err;
 
                 var existingComment = dish.comments.id(req.params.commentId);
-                var newComment = model.cloneComment ( req.body, existingComment );
+                var newComment = model.cloneComment (existingComment, req.body);
 
                 existingComment.remove();
 

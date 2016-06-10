@@ -73,21 +73,27 @@ module.exports = (function(){
 //-------------------------------------
     var Dishes = mongoose.model('Dish', dishSchema);
 
-    Dishes.cloneComment = function(fromComment, toComment) {
-        var comment = {
-            rating: toComment.rating,
-            comment: toComment.comment,
-            author : toComment.author
-        };
-        if ( fromComment.rating ) {
-            comment.rating = fromComment.rating;
+    Dishes.cloneComment = function() {
+
+        var comment = {};
+
+        for (var i = 0; i < arguments.length; i++) {
+            var argument = arguments[i];
+            console.log("cloneComment(" + argument + ")");
+            if ( argument.rating ) {
+                comment.rating = argument.rating;
+            }
+            if (argument.comment) {
+                comment.comment = argument.comment;
+            }
+            if (argument.author) {
+                comment.author = argument.author;
+            }
+            if (argument._id) {
+                comment._id = argument._id;
+            }
         }
-        if (fromComment.comment) {
-            comment.comment = fromComment.comment;
-        }
-        if (fromComment.author) {
-            comment.author = fromComment.author;
-        }
+
         return comment;
     }
 
