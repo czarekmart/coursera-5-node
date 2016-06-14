@@ -27,10 +27,10 @@ module.exports = (function(){
                 type: String,
                 required: true
             },
-            author: {
-                type: String,
-                required: true
-            },
+            postedBy: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            }
         },
         {
             timestamps: true
@@ -86,8 +86,8 @@ module.exports = (function(){
             if (argument.comment) {
                 comment.comment = argument.comment;
             }
-            if (argument.author) {
-                comment.author = argument.author;
+            if (argument.postedBy) {
+                comment.postedBy = argument.postedBy;
             }
             if (argument._id) {
                 comment._id = argument._id;
