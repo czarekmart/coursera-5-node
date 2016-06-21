@@ -30,19 +30,54 @@ module.exports = (function(){
     });
   });
 
-  router.get('/users', Verify.verifyOrdinaryUser, function (req, res, next) {
+  router.get('/userinfo', Verify.verifyOrdinaryUser, function (req, res, next) {
     User.find({}, function (err, users) {
       if (err) throw err;
       var output = {
-        users : users,
+        users: users,
       };
-      if ( req.decoded ) {
+      if (req.decoded) {
         output.currentUser = {
-          id : req.decoded._doc._id,
+          id: req.decoded._doc._id,
           admin: req.decoded._doc.admin
         };
       }
       res.json(output);
+    });
+  });
+
+  router.get('/users', function (req, res, next) {
+    User.find({}, function (err, users) {
+      if (err) throw err;
+      res.json(users);
+    });
+  });
+
+  router.get('/dishes', function (req, res, next) {
+    Dishes.find({}, function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+  });
+
+  router.get('/favorites', function (req, res, next) {
+    Favorites.find({}, function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+  });
+
+  router.get('/promos', function (req, res, next) {
+    Promos.find({}, function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+  });
+
+  router.get('/leaders', function (req, res, next) {
+    Leaders.find({}, function (err, result) {
+      if (err) throw err;
+      res.json(result);
     });
   });
 

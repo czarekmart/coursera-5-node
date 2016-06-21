@@ -17,14 +17,14 @@ module.exports = (function(){
         // logged user, so we have to query for the postedBy
         //--------------------------------------------------------
         .get(Verify.verifyOrdinaryUser, function (req, res, next) {
-            model.find({postedBy: req.decoded._doc._id})
+            model.findOne({postedBy: req.decoded._doc._id})
                 .populate('dishes')
                 .populate('postedBy')
-                .exec(function (err, favorites) {
-                    if (err) throw err;
-                    res.json(favorites[0]);
+                .exec(function (err, fav) {
+                    res.json(fav);
                 });
         })
+
 
         //--------------------------------------------------------------
         // Here we add a new favorite for the currently logged user.
@@ -35,33 +35,18 @@ module.exports = (function(){
         // or we create a new one.
         //--------------------------------------------------------------
         .post(Verify.verifyOrdinaryUser, function (req, res, next) {
-            model.find({postedBy: req.decoded._doc._id}, function(err, docs) {
-
-                var favDoc;
-                if(docs.length > 0) {
-                    //-----------------------------------------------
-                    // The doc already exists for the current user.
-                    // In fact, there is only one such document.
-                    // I could use findOne, but I was afraid I wouldn't
-                    // receive any callback if none exists.
-                    // I need to investigate findOne function later.
-                    //-----------------------------------------------
-                    favDoc = docs[0];
+            model.findOne({postedBy: req.decoded._doc._id}, function (err, fav) {
+                if (!fav) {
+                    fav = new model();
+                    fav.postedBy = req.decoded._doc._id;
                 }
-                else {
-                    //-----------------------------------------
-                    // The doc doesn't exist,
-                    // so create a new one for the current user
-                    //------------------------------------------
-                    favDoc = new model();
-                    favDoc.postedBy = req.decoded._doc._id;
+                if (fav.dishes.indexOf(req.body._id) < 0) {
+                    fav.dishes.push(req.body._id);
+                    fav.save(function (err, fav) {
+                        if (err) throw err;
+                    });
                 }
-                favDoc.dishes.push(req.body._id);
-                favDoc.save(function (err, fav) {
-                    if (err) throw err;
-                    res.json(fav);
-                });
-
+                res.json(fav);
             });
         })
 
